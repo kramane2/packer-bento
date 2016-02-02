@@ -1,0 +1,4 @@
+{
+  "headless" : "true",
+  "chef_version" : "12.6.0"
+}
