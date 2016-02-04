@@ -1,0 +1,6 @@
+source "https://supermarket.chef.io"
+
+cookbook "git"
+cookbook "jenkins"
+cookbook "jenkins_wrapper", git: 'git@github.com:monkeylittle/chef_cookbooks_jenkins_wrapper.git'
+cookbook "maven"

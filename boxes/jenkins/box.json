@@ -1,0 +1,154 @@
+{
+  "builders": [
+    {
+      "headless": "{{ user `headless` }}",
+      "output_directory": "builds/{{user `base_box`}}.jenkins.virtualbox",
+      "shutdown_command": "echo 'vagrant' | sudo -S /sbin/halt -h -p",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_username": "vagrant",
+      "source_path": "builds/{{ user `base_box` }}.{{ user `provider` }}/{{ user `base_box` }}.ovf",
+      "type": "virtualbox-ovf",
+      "vboxmanage": [
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--memory",
+          "1024"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--cpus",
+          "1"
+        ]
+      ],
+      "vm_name": "{{ user `base_box` }}.jenkins.{{ user `provider` }}"
+    }
+  ],
+  "post-processors": [
+    {
+      "keep_input_artifact": true,
+      "output": "builds/{{user `base_box`}}.jenkins.{{.Provider}}.box",
+      "type": "vagrant"
+    }
+  ],
+  "provisioners": [
+    {
+      "command": "berks vendor -b boxes/jenkins/provisioners/chef/Berksfile boxes/jenkins/provisioners/chef/cookbooks/",
+      "type": "shell-local"
+    },
+    {
+      "cookbook_paths": "boxes/jenkins/provisioners/chef/cookbooks",
+      "json": {
+        "jenkins": {
+          "master": {
+            "version": "1.625-1.1"
+          },
+          "plugins": [
+            {
+              "name": "token-macro",
+              "version": "1.11",
+              "install_deps": true
+            },
+            {
+              "name": "run-condition",
+              "version": "1.0",
+              "install_deps": false
+            },
+            {
+              "name": "conditional-buildstep",
+              "version": "1.3.3",
+              "install_deps": false
+            },
+            {
+              "name": "rebuild",
+              "version": "1.25",
+              "install_deps": true
+            },
+            {
+              "name": "promoted-builds",
+              "version": "2.24",
+              "install_deps": false
+            },
+            {
+              "name": "parameterized-trigger",
+              "version": "2.29",
+              "install_deps": true
+            },
+            {
+              "name": "jquery",
+              "version": "1.11.2-0",
+              "install_deps": true
+            },
+            {
+              "name": "build-pipeline-plugin",
+              "version": "1.4.9",
+              "install_deps": false
+            },
+            {
+              "name": "delivery-pipeline-plugin",
+              "version": "0.9.7",
+              "install_deps": false
+            },
+            {
+              "name": "greenballs",
+              "version": "1.15",
+              "install_deps": true
+            },
+            {
+              "name": "ws-cleanup",
+              "version": "0.28",
+              "install_deps": false
+            },
+            {
+              "name": "build-name-setter",
+              "version": "1.5.1",
+              "install_deps": false
+            },
+            {
+              "name": "envinject",
+              "version": "1.92.1",
+              "install_deps": true
+            },
+            {
+              "name": "job-dsl",
+              "version": "1.40",
+              "install_deps": true
+            },
+            {
+              "name": "ansicolor",
+              "version": "0.4.2",
+              "install_deps": true
+            },
+            {
+              "name": "git",
+              "version": "2.4.0",
+              "install_deps": true
+            }
+          ]
+        }
+      },
+      "run_list": [
+        "git",
+        "maven",
+        "jenkins::master",
+        "jenkins_wrapper"
+      ],
+      "skip_install": true,
+      "type": "chef-solo"
+    }
+  ],
+  "variables": {
+    "box_basename": "centos-6.7",
+    "build_timestamp": "{{isotime \"20060102150405\"}}",
+    "git_revision": "__unknown_git_revision__",
+    "headless": "",
+    "http_proxy": "{{env `http_proxy`}}",
+    "https_proxy": "{{env `https_proxy`}}",
+    "metadata": "floppy/dummy_metadata.json",
+    "name": "centos-6.7",
+    "no_proxy": "{{env `no_proxy`}}",
+    "version": "2.1.TIMESTAMP"
+  }
+}
