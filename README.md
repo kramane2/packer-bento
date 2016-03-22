@@ -19,13 +19,7 @@ Base boxes are located in the boxes directory.  The following base boxes are def
 
 ####Centos 6.7 x86_64
 
-To create a Centos 6.7 x86_64 base box execute the following command from the root of the repository:
-
-```
-packer build -force -var-file=boxes/centos-6.7-x86_64-variables.json boxes/centos-6.7-x86_64-box.json
-```
-
-The var-file can contain the following variables:
+To create the box you first need to create the var-file.  The var-file can contain the following variables:
 
 | Variable | Type 			| Default | Description |
 | -------- | ----- 			| ------- | ----------- |
@@ -39,6 +33,12 @@ The var-file can contain the following variables:
   "headless" : "true",
   "chef_version" : "12.6.0"
 }
+```
+
+To create a Centos 6.7 x86_64 base box execute the following command from the root of the repository:
+
+```
+packer build -force -var-file=boxes/centos-6.7-x86_64-variables.json boxes/centos-6.7-x86_64-box.json
 ```
 
 #####Import box into Vagrant
@@ -58,13 +58,7 @@ Derivative boxes are located in sub directories of the boxes directory.  The fol
 #####Pre-requisites
 The Java 8 box can be built from any base box.
 
-To create a Java 8 box execute the following command from the root of the repository:
-
-```
-packer build -force -var-file=boxes/java/8/variables.json boxes/java/8/box.json
-```
-
-The var-file can contain the following variables:
+To create the box you first need to create the var-file.  The var-file can contain the following variables:
 
 | Variable | Type 			| Default | Description |
 | -------- | ----- 			| ------- | ----------- |
@@ -72,8 +66,6 @@ The var-file can contain the following variables:
 | base_box | String 	|  | the ovf on which to base this derivative box. |
 | provider | String 	| | the virtualisation provider of the base box and derivative box. |
 
-
-TODO: fix problem with boxes/java/8/provisioners/chef/cookbooks folder not being present
 
 #####Example var-file
 
@@ -83,6 +75,12 @@ TODO: fix problem with boxes/java/8/provisioners/chef/cookbooks folder not being
   "base_box": "centos-6.7-x86_64",
   "provider": "virtualbox"
 }
+```
+
+To create a Java 8 box execute the following command from the root of the repository:
+
+```
+packer build -force -var-file=boxes/java/8/variables.json boxes/java/8/box.json
 ```
 
 #####Import box into Vagrant
@@ -97,21 +95,13 @@ vagrant box add bento/centos-6.7/chef-12.6.0/java-8 builds/centos-6.7-x86_64.jav
 
 The Jenkins box can be built from *any* Java derivative box.
 
-To create a Jenkins box execute the following command from the root of the repository:
-
-```
-packer build -force -var-file=boxes/jenkins/variables.json boxes/jenkins/box.json
-```
-
-The var-file can contain the following variables:
+To create the box you first need to create the var-file.  The var-file can contain the following variables:
 
 | Variable | Type 			| Default | Description |
 | -------- | ----- 			| ------- | ----------- |
 | headless | String 		| *false* | if *true* build the image without displaying the virtualbox GUI. |
 | base_box | String 	|  | the ovf on which to base this derivative box. |
 | provider | String 	| | the virtualisation provider of the base box and derivative box. |
-
-TODO: fix problem with boxes/java/8/provisioners/chef/cookbooks folder not being present
 
 #####Example var-file
 
@@ -121,6 +111,12 @@ TODO: fix problem with boxes/java/8/provisioners/chef/cookbooks folder not being
   "base_box": "centos-6.7-x86_64.java8",
   "provider": "virtualbox"
 }
+```
+
+To create a Jenkins box execute the following command from the root of the repository:
+
+```
+packer build -force -var-file=boxes/jenkins/variables.json boxes/jenkins/box.json
 ```
 
 #####Import box into Vagrant
