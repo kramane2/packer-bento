@@ -4,10 +4,10 @@
       "headless": "{{ user `headless` }}",
       "output_directory": "builds/{{user `base_box`}}.java8.virtualbox",
       "shutdown_command": "echo 'vagrant' | sudo -S /sbin/halt -h -p",
+      "source_path": "builds/{{ user `base_box` }}.{{ user `provider` }}/{{ user `base_box` }}.ovf",
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_username": "vagrant",
-      "source_path": "builds/{{ user `base_box` }}.{{ user `provider` }}/{{ user `base_box` }}.ovf",
       "type": "virtualbox-ovf",
       "vboxmanage": [
         [
