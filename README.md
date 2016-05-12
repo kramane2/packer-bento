@@ -162,3 +162,47 @@ vagrant box remove bento/centos-6.7/chef-12.6.0/java-8/tomcat-7
 
 vagrant box add bento/centos-6.7/chef-12.6.0/java-8/tomcat-7 builds/centos-6.7-x86_64.java8.tomcat7.virtualbox.box
 ```
+
+#### Kafka
+
+The Kafka box can be built from *any* Java derivative box.
+
+To create the box you first need to create the var-file.  The var-file can contain the following variables:
+
+| Variable | Type       | Default | Description |
+| -------- | -----      | ------- | ----------- |
+| headless | String     | *false* | if *true* build the image without displaying the virtualbox GUI. |
+| base_box | String   |  | the ovf on which to base this derivative box. |
+| provider | String   | | the virtualisation provider of the base box and derivative box. |
+
+#####Example var-file
+
+```
+{
+  "headless": "true",
+  "base_box": "centos-6.7-x86_64.java8",
+  "provider": "virtualbox"
+}
+```
+
+#### ZooKeeper
+
+The ZooKeeper box can be built from *any* Java derivative box.
+
+To create the box you first need to create the var-file.  The var-file can contain the following variables:
+
+| Variable | Type       | Default | Description |
+| -------- | -----      | ------- | ----------- |
+| headless | String     | *false* | if *true* build the image without displaying the virtualbox GUI. |
+| base_box | String   |  | the ovf on which to base this derivative box. |
+| provider | String   | | the virtualisation provider of the base box and derivative box. |
+
+#####Example var-file
+
+```
+{
+  "headless": "true",
+  "base_box": "centos-6.7-x86_64.java8",
+  "provider": "virtualbox"
+}
+```

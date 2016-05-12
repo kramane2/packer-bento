@@ -4,10 +4,10 @@
       "headless": "{{ user `headless` }}",
       "output_directory": "builds/{{user `base_box`}}.jenkins.virtualbox",
       "shutdown_command": "echo 'vagrant' | sudo -S /sbin/halt -h -p",
+      "source_path": "builds/{{ user `base_box` }}.{{ user `provider` }}/{{ user `base_box` }}.ovf",
       "ssh_password": "vagrant",
       "ssh_port": 22,
       "ssh_username": "vagrant",
-      "source_path": "builds/{{ user `base_box` }}.{{ user `provider` }}/{{ user `base_box` }}.ovf",
       "type": "virtualbox-ovf",
       "vboxmanage": [
         [
@@ -47,84 +47,84 @@
           },
           "plugins": [
             {
+              "install_deps": true,
               "name": "token-macro",
-              "version": "1.11",
-              "install_deps": true
+              "version": "1.11"
             },
             {
+              "install_deps": false,
               "name": "run-condition",
-              "version": "1.0",
-              "install_deps": false
+              "version": "1.0"
             },
             {
+              "install_deps": false,
               "name": "conditional-buildstep",
-              "version": "1.3.3",
-              "install_deps": false
+              "version": "1.3.3"
             },
             {
+              "install_deps": true,
               "name": "rebuild",
-              "version": "1.25",
-              "install_deps": true
+              "version": "1.25"
             },
             {
+              "install_deps": false,
               "name": "promoted-builds",
-              "version": "2.24",
-              "install_deps": false
+              "version": "2.24"
             },
             {
+              "install_deps": true,
               "name": "parameterized-trigger",
-              "version": "2.29",
-              "install_deps": true
+              "version": "2.29"
             },
             {
+              "install_deps": true,
               "name": "jquery",
-              "version": "1.11.2-0",
-              "install_deps": true
+              "version": "1.11.2-0"
             },
             {
+              "install_deps": false,
               "name": "build-pipeline-plugin",
-              "version": "1.4.9",
-              "install_deps": false
+              "version": "1.4.9"
             },
             {
+              "install_deps": false,
               "name": "delivery-pipeline-plugin",
-              "version": "0.9.7",
-              "install_deps": false
+              "version": "0.9.7"
             },
             {
+              "install_deps": true,
               "name": "greenballs",
-              "version": "1.15",
-              "install_deps": true
+              "version": "1.15"
             },
             {
+              "install_deps": false,
               "name": "ws-cleanup",
-              "version": "0.28",
-              "install_deps": false
+              "version": "0.28"
             },
             {
+              "install_deps": false,
               "name": "build-name-setter",
-              "version": "1.5.1",
-              "install_deps": false
+              "version": "1.5.1"
             },
             {
+              "install_deps": true,
               "name": "envinject",
-              "version": "1.92.1",
-              "install_deps": true
+              "version": "1.92.1"
             },
             {
+              "install_deps": true,
               "name": "job-dsl",
-              "version": "1.40",
-              "install_deps": true
+              "version": "1.40"
             },
             {
+              "install_deps": true,
               "name": "ansicolor",
-              "version": "0.4.2",
-              "install_deps": true
+              "version": "0.4.2"
             },
             {
+              "install_deps": true,
               "name": "git",
-              "version": "2.4.0",
-              "install_deps": true
+              "version": "2.4.0"
             }
           ]
         }
@@ -137,6 +137,14 @@
       ],
       "skip_install": true,
       "type": "chef-solo"
+    },
+    {
+      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
+      "scripts": [
+        "scripts/centos/cleanup.sh",
+        "scripts/common/minimize.sh"
+      ],
+      "type": "shell"
     }
   ],
   "variables": {

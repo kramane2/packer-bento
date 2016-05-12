@@ -2,7 +2,7 @@
   "builders": [
     {
       "headless": "{{ user `headless` }}",
-      "output_directory": "builds/{{user `base_box`}}.tomcat7.virtualbox",
+      "output_directory": "builds/{{user `base_box`}}.zookeeper.virtualbox",
       "shutdown_command": "echo 'vagrant' | sudo -S /sbin/halt -h -p",
       "source_path": "builds/{{ user `base_box` }}.{{ user `provider` }}/{{ user `base_box` }}.ovf",
       "ssh_password": "vagrant",
@@ -23,41 +23,33 @@
           "1"
         ]
       ],
-      "vm_name": "{{ user `base_box` }}.tomcat7.{{ user `provider` }}"
+      "vm_name": "{{ user `base_box` }}.zookeeper.{{ user `provider` }}"
     }
   ],
   "post-processors": [
     {
       "keep_input_artifact": true,
-      "output": "builds/{{user `base_box`}}.tomcat7.{{.Provider}}.box",
+      "output": "builds/{{user `base_box`}}.zookeeper.{{.Provider}}.box",
       "type": "vagrant"
     }
   ],
   "provisioners": [
     {
-      "command": "berks vendor -b boxes/tomcat/7/provisioners/chef/Berksfile boxes/tomcat/7/provisioners/chef/cookbooks/",
+      "command": "berks vendor -b boxes/zookeeper/provisioners/chef/Berksfile boxes/zookeeper/provisioners/chef/cookbooks/",
       "type": "shell-local"
     },
     {
-      "cookbook_paths": "boxes/tomcat/7/provisioners/chef/cookbooks",
+      "cookbook_paths": "boxes/zookeeper/provisioners/chef/cookbooks",
       "json": {
-        "tomcat-all": {
-          "version": "7.0.53"
+        "apache_zookeeper": {
+          "install_java": false
         }
       },
       "run_list": [
-        "tomcat-all"
+        "apache_zookeeper::install"
       ],
       "skip_install": true,
       "type": "chef-solo"
-    },
-    {
-      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
-      "scripts": [
-        "scripts/centos/cleanup.sh",
-        "scripts/common/minimize.sh"
-      ],
-      "type": "shell"
     }
   ],
   "variables": {
