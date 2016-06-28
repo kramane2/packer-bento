@@ -86,7 +86,7 @@
     "iso_name": "CentOS-6.7-x86_64-bin-DVD1.iso",
     "ks_path": "centos-6.7/ks.cfg",
     "metadata": "floppy/dummy_metadata.json",
-    "mirror": "http://mirrors.kernel.org/centos",
+    "mirror": "http://mirror.nsc.liu.se/centos-store",
     "mirror_directory": "6.7/isos/x86_64",
     "name": "centos-6.7",
     "no_proxy": "{{env `no_proxy`}}",

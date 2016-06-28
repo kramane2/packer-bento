@@ -1,0 +1,67 @@
+{
+  "builders": [
+    {
+      "headless": "{{ user `headless` }}",
+      "output_directory": "builds/{{user `base_box`}}.rabbitmq.virtualbox",
+      "shutdown_command": "echo 'vagrant' | sudo -S /sbin/halt -h -p",
+      "source_path": "builds/{{ user `base_box` }}.{{ user `provider` }}/{{ user `base_box` }}.ovf",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_username": "vagrant",
+      "type": "virtualbox-ovf",
+      "vboxmanage": [
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--memory",
+          "1024"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--cpus",
+          "1"
+        ]
+      ],
+      "vm_name": "{{ user `base_box` }}.rabbitmq.{{ user `provider` }}"
+    }
+  ],
+  "post-processors": [
+    {
+      "keep_input_artifact": true,
+      "output": "builds/{{user `base_box`}}.rabbitmq.{{.Provider}}.box",
+      "type": "vagrant"
+    }
+  ],
+  "provisioners": [
+    {
+      "command": "berks vendor -b boxes/rabbitmq/provisioners/chef/Berksfile boxes/rabbitmq/provisioners/chef/cookbooks/",
+      "type": "shell-local"
+    },
+    {
+      "cookbook_paths": "boxes/rabbitmq/provisioners/chef/cookbooks",
+      "json": {
+        "rabbitmq": {
+          "use_distro_version": true
+        }
+      },
+      "run_list": [
+        "rabbitmq"
+      ],
+      "skip_install": true,
+      "type": "chef-solo"
+    }
+  ],
+  "variables": {
+    "box_basename": "centos-6.7",
+    "build_timestamp": "{{isotime \"20060102150405\"}}",
+    "git_revision": "__unknown_git_revision__",
+    "headless": "",
+    "http_proxy": "{{env `http_proxy`}}",
+    "https_proxy": "{{env `https_proxy`}}",
+    "metadata": "floppy/dummy_metadata.json",
+    "name": "centos-6.7",
+    "no_proxy": "{{env `no_proxy`}}",
+    "version": "2.1.TIMESTAMP"
+  }
+}
